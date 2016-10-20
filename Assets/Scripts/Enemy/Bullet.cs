@@ -4,13 +4,13 @@ using System.Collections;
 public class Bullet : MonoBehaviour
 {
 
-    private GameManager gameManager;
+    //private GameManager gameManager;
 
     // Use this for initialization
     void Start()
     {
 
-        gameManager = GameManager.instance;
+        //gameManager = GameManager.instance;
     }
 
     // Update is called once per frame
@@ -34,46 +34,27 @@ public class Bullet : MonoBehaviour
         //if(enemyComponent == null) Destroy(other.gameObject);
 
         // Method 3: Check object name (I'm using this)
-        if (other.name.ToLower() == "enemy(clone)")
-        {
-            //kill the enemy
-            Destroy(other.gameObject);
-
-            //add score
-            if (gameManager != null)
-            {
-                gameManager.EnemyKilled();
-            }
-
-        }
-
-        if (other.tag.ToLower()=="enemy")
-        {
-            //kill the enemy
-            Destroy(other.gameObject);
-
-            //add score
-            if (gameManager != null)
-            {
-                gameManager.EnemyKilled();
-            }
-
-        }
+      
+        
+       
 
         if (other.name.ToLower() == "net")
         {
             //Add 1 bullet to count
-            other.gameObject.GetComponentInParent<Controller>().bulletCount += 1;      
+            other.gameObject.GetComponentInParent<Controller>().bulletCount += 1;
+            Destroy(this.gameObject);
         }
 
-        Destroy(this.gameObject);
-
-        if (other.name.ToLower() == "player")
+        else if (other.name.ToLower() == "player")
         {
         
             other.gameObject.GetComponentInParent<Controller>().healthBarSlider.value -= (float)20;
+            Destroy(this.gameObject);
         }
-
+        else if(other.tag.ToLower() =="bullet")
+        {
+            return;
+        }
         Destroy(this.gameObject);
 
 

@@ -8,10 +8,11 @@ public class Controller : MonoBehaviour {
     public float bulletSpeed;
     public float bulletDelay;
 
+ 
     public GameObject bullet;
     public GameObject muzzle;
-
     public GameObject net;
+    
 
     public int bulletCount;
 
@@ -44,6 +45,7 @@ public class Controller : MonoBehaviour {
         if(healthBarSlider.value<=0)
         {
             Destroy(this.gameObject);
+            //Show 
         }
 
     }

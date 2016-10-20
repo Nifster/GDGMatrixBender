@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float speed;
 
-    bool active;
+    bool active = false;
 
     public float LOSdistance;
 
@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
     public GameObject muzzle;
     public float bulletSpeed;
     public float bulletDelay;
+    public float health;
 
     public Vector2 lookDirection;
 
@@ -50,6 +51,7 @@ public class Enemy : MonoBehaviour
         }
         if (active)
         {
+            transform.right = playerDist.normalized;
             lookDirection = playerObj.transform.position;
             //Debug.Log("Player DETECTED");
             //follow player
@@ -68,7 +70,7 @@ public class Enemy : MonoBehaviour
             }
         }
         rigidbody.velocity = velocity;
-        transform.right = playerDist.normalized;
+        
     }
 
     void OnCollisionEnter2D(Collision2D other)
@@ -76,6 +78,8 @@ public class Enemy : MonoBehaviour
         Debug.Log("coll");
         if (other.gameObject.tag == "Bullet")
         {
+            this.health -= 20;
+            if(health<=0)
             Destroy(this.gameObject);
         }
     }
@@ -105,12 +109,12 @@ public class Enemy : MonoBehaviour
 
     void shootBullet()
     {
-        if(speed == 0)
-            speed = 1;
+        //if(speed == 0)
+            //speed = 1;
                 GameObject newBullet = Instantiate(bullet);
                 newBullet.transform.rotation = muzzle.transform.rotation;
                 newBullet.transform.position = muzzle.transform.position;
-                newBullet.GetComponent<Rigidbody2D>().velocity = bulletSpeed * (playerObj.transform.position - transform.position * speed);
-        speed = 0;
+        newBullet.GetComponent<Rigidbody2D>().velocity = (playerObj.transform.position - this.transform.position).normalized * (bulletSpeed + speed);
+        //speed = 0;
     }
 }
