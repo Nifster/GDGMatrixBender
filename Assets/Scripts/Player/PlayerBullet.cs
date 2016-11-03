@@ -4,11 +4,12 @@ using System.Collections;
 public class PlayerBullet : MonoBehaviour
 {
 
+	private GameManager gameManager;
 
     // Use this for initialization
     void Start()
     {
-
+		gameManager = GameManager.instance;
     }
 
     // Update is called once per frame
@@ -55,8 +56,20 @@ public class PlayerBullet : MonoBehaviour
             Destroy(this.gameObject);
         }
 
+		if (other.name.ToLower() == "pistolenemy(Clone)")
+		{
+			//kill the enemy
+			Destroy(other.gameObject);
+
+			//add score
+			if(gameManager != null)
+			{
+				gameManager.EnemyKilled();
+			}
+
+		}
         
-              
+		Destroy(this.gameObject);    
     }
 }
 
